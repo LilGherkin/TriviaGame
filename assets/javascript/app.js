@@ -12,11 +12,24 @@ Repeat above process until they go through the entire list of questions.
 Once completed, display the final socres.
 
 */
+
+$(document).ready(function(){
+
+//Various things being kept track of during the game.
 var Trivia = {
+    //Keeps track of correct answers
     Correct: 0,
+    //Keeps track of incorrect answers.
     Incorrect: 0,
+    //Keeps track of questiosn where time ran out.
     Unanswered: 0,
+    //Timer set for 30 seconds. 
     Timer: 30,
+    //Sets our timer on and off. Off by default.
+    TimerRunning: false,
+    //Keeps track of what question we're on.
+    CurrentQuestion: 0,
+    //Question bank.
     Questions: {
         Question1: "Question 1",
         Question2: "Question 2",
@@ -29,6 +42,7 @@ var Trivia = {
         Question9: "Question 9",
         Question10: "Question 10"
     },
+    //Option bank
     Options: {
         Question1: ["Answer", "Wrong", "Wrong", "Wrong"],
         Question2: ["Answer", "Wrong", "Wrong", "Wrong"],
@@ -41,4 +55,29 @@ var Trivia = {
         Question9: ["Answer", "Wrong", "Wrong", "Wrong"],
         Question10: ["Answer", "Wrong", "Wrong", "Wrong"]
     },
+    //Answer Bank
+    Answers: {
+        Question1:["Answer"],
+        Question2:["Answer"],
+        Question3:["Answer"],
+        Question4:["Answer"],
+        Question5:["Answer"],
+        Question6:["Answer"],
+        Question7:["Answer"],
+        Question8:["Answer"],
+        Question9:["Answer"],
+        Question10:["Answer"],
+    },
+//Closes out Trivia object.
 }
+
+function StartGame (){
+    Trivia.CurrentQuestion = 0
+    Trivia.Correct = 0;
+    Trivia.Incorrect = 0;
+    Trivia.Unanswered = 0;
+    clearInterval()
+}
+
+//This closes out $(document).ready(function()){
+});
