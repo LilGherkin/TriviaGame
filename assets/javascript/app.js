@@ -25,59 +25,88 @@ var Trivia = {
     Unanswered: 0,
     //Timer set for 30 seconds. 
     Timer: 30,
+    //Time that is displayed. Starts off as blank.
+    CurrentTime: "",
     //Sets our timer on and off. Off by default.
     TimerRunning: false,
     //Keeps track of what question we're on.
     CurrentQuestion: 0,
     //Question bank.
     Questions: {
-        Question1: "Question 1",
-        Question2: "Question 2",
-        Question3: "Question 3",
-        Question4: "Question 4",
-        Question5: "Question 5",
-        Question6: "Question 6",
-        Question7: "Question 7",
-        Question8: "Question 8",
-        Question9: "Question 9",
-        Question10: "Question 10"
+        Question1: "1+1 = ?",
+        Question2: "3*4 = ?",
+        Question3: "5-6 = ?",
+        Question4: "15/5 = ?",
+        Question5: "2 ^ 3 = ?",
+        Question6: "5 % 2 = ?",
+        Question7: "3 * 2 + 1 = ?",
+        Question8: "30x - 5 = 10. What is x expressed as a decimal?",
+        Question9: "-1 * -5 * -2 = ?",
+        Question10: "How would you simplify writing out the following: 1 * 2 * 3 * ... * 100?"
     },
     //Option bank
     Options: {
-        Question1: ["Answer", "Wrong", "Wrong", "Wrong"],
-        Question2: ["Answer", "Wrong", "Wrong", "Wrong"],
-        Question3: ["Answer", "Wrong", "Wrong", "Wrong"],
-        Question4: ["Answer", "Wrong", "Wrong", "Wrong"],
-        Question5: ["Answer", "Wrong", "Wrong", "Wrong"],
-        Question6: ["Answer", "Wrong", "Wrong", "Wrong"],
-        Question7: ["Answer", "Wrong", "Wrong", "Wrong"],
-        Question8: ["Answer", "Wrong", "Wrong", "Wrong"],
-        Question9: ["Answer", "Wrong", "Wrong", "Wrong"],
-        Question10: ["Answer", "Wrong", "Wrong", "Wrong"]
+        Question1: ["2", "4", "3", "1"],
+        Question2: ["12", "6", "7", "1"],
+        Question3: ["1", "0", "-1", "Undefined"],
+        Question4: ["1", "5", "15", "3"],
+        Question5: ["5", "6", "8", ".6666"],
+        Question6: ["2.5", "1", ".1", "1"],
+        Question7: ["7", "9", "8", "6"],
+        Question8: ["15/30", ".5", "1/2", ".15"],
+        Question9: ["10", "100", "-100", "-10"],
+        Question10: ["Σ100", "No known notation", "100!", "100?"]
     },
     //Answer Bank
     Answers: {
-        Question1:["Answer"],
-        Question2:["Answer"],
-        Question3:["Answer"],
-        Question4:["Answer"],
-        Question5:["Answer"],
-        Question6:["Answer"],
-        Question7:["Answer"],
-        Question8:["Answer"],
-        Question9:["Answer"],
-        Question10:["Answer"],
+        Question1:["2"],
+        Question2:["12"],
+        Question3:["-1"],
+        Question4:["3"],
+        Question5:["8"],
+        Question6:["1"],
+        Question7:["7"],
+        Question8:[".5"],
+        Question9:["-10"],
+        Question10:["100!"],
     },
-//Closes out Trivia object.
 }
 
-function StartGame (){
+function StartGame(){
     Trivia.CurrentQuestion = 0
     Trivia.Correct = 0;
     Trivia.Incorrect = 0;
     Trivia.Unanswered = 0;
-    clearInterval()
+    clearInterval(Trivia.CurrentTime);
+    console.log(Trivia);
+    NewQuestion();
 }
+
+function NewQuestion(){
+    //Resets timer to 30 seconds.  
+    Trivia.Timer = 30;
+    //Writs text to our timer.
+    $("#timer").text(Trivia.Timer);
+    //Sets our question as a variable to be reference later.
+    var QuestionQuestion = Object.values(Trivia.Questions)[Trivia.CurrentQuestion];
+    //Populates the Question field.
+    $("#Question").text(QuestionQuestion);
+    //Array of all options for the question.
+    var QuestionOptions = Object.values(Trivia.Options)[Trivia.CurrentQuestion];
+    //Populate Option field. .each gathered from JQuery API. Goes through the key value pairs
+    //We're appending buttons to our Options div that contains the content.
+    $.each(QuestionOptions, function(index, value){
+        $("#Options").append($('<button class="Options">'+value+'</button>'));
+    })
+}
+
+function CheckGuess(){
+    var Results;
+}
+//Listeners
+$("#Start").on("click", StartGame());
+$(document).on("click", "#option", CheckGuess());
+
 
 //This closes out $(document).ready(function()){
 });
