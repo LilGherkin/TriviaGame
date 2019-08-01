@@ -14,6 +14,7 @@ Once completed, display the final socres.
 */
 
 $(document).ready(function(){
+  
 
 //Various things being kept track of during the game.
 var Trivia = {
@@ -21,7 +22,7 @@ var Trivia = {
     Correct: 0,
     //Keeps track of incorrect answers.
     Incorrect: 0,
-    //Keeps track of questiosn where time ran out.
+    //Keeps track of questions where time ran out.
     Unanswered: 0,
     //Timer set for 30 seconds. 
     Timer: 30,
@@ -85,7 +86,7 @@ function StartGame(){
 function NewQuestion(){
     //Resets timer to 30 seconds.  
     Trivia.Timer = 30;
-    //Writs text to our timer.
+    //Writes text to our timer.
     $("#timer").text(Trivia.Timer);
     //Sets our question as a variable to be reference later.
     var QuestionQuestion = Object.values(Trivia.Questions)[Trivia.CurrentQuestion];
@@ -101,11 +102,42 @@ function NewQuestion(){
 }
 
 function CheckGuess(){
-    var Results;
+    //Sets the answer equal to whatever we defined as the answer in our Trivia.Answers at the counter for the current question.
+    var CurrentQuestionAnswer = Object.values(Trivia.Answers)[Trivia.CurrentQuestion];
+    //If the chosen guess has the same value as CurrentQUestionANswer then they got it right, and get 1 point.
+    //This is being used becaues it should be referring to the button that is clicked on. We have a listener for buttons on clicked to run check guess.
+    if($(this).text() === CurrentQuestionAnswer){
+        //Increment our correct answers tally.
+        Trivia.Correct++;
+        //Clear the timer.
+        clearInterval(Trivia.CurrentTime);
+    } else {
+        //Increment wrong answers tally.
+        Trivia.Incorrect++;
+        //Clear the timer.
+        clearInterval(Trivia.CurrentTime);
+
+    }
+}
+
+//Sets the time, and adds to unanswered if it hits 0.
+function TimerGoing(){
+    //Once Trivia.Timer is equal to 0 then increment unanswered, clear the clock, run the next question.
+    if(Trivia.Timer === 0){
+        Trivia.Unanswered++;
+        clearInterval(Trivia.CurrentTime);
+    }
+}
+//Clears prevoius question and options and then grabs a new question. 
+function SweepEmUp(){
+    Trivia.CurrentQuestion++;
+    $(".Options").remove();
+    NewQuestion();
 }
 //Listeners
 $("#Start").on("click", StartGame());
-$(document).on("click", "#option", CheckGuess());
+$(document).on("click", "#Option", CheckGuess());
+
 
 
 //This closes out $(document).ready(function()){
